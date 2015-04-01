@@ -1,4 +1,5 @@
 #Install & Upgrade
+
 1.Install git & vim
 
 ```
@@ -23,8 +24,10 @@ ln -s ~/.vim/vimrc ~/.vimrc
 
 4.Happy vimming!
 
-
 ---
+
+#Problem Shooting
+
 If there is some problem, check .vimrc
 
 ```vim
@@ -37,7 +40,9 @@ Then open vim, and run
 :PluginInstall
 ```
 ---
+
 #Reference
+
 [Vundle](https://github.com/gmarik/Vundle.vim)
 
 [Vgod's vimrc](https://github.com/vgod/vimrc)
@@ -46,5 +51,3 @@ Then open vim, and run
 
 [symlink .vimrc](http://superuser.com/questions/438343/put-vimrc-into-the-vim-folder)
 
-
-# dotvim
