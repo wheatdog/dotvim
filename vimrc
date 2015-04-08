@@ -9,7 +9,9 @@
 " -) Cool stuff: http://bytefluent.com/vivify/
 " -) Try to detect how many spilts in my tab, I would like to fix the number on
 "    2, or maybe I could startup my vim by default 2 vertical spilts.
-
+" -) Append output of an external command.
+"    http://vim.wikia.com/wiki/Append_output_of_an_external_command
+"    http://vim.wikia.com/wiki/Display_output_of_shell_commands_in_new_window
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Vundle Setting
@@ -71,10 +73,6 @@ set softtabstop=4               " Insert 4 spaces when tab is pressed
 set shiftwidth=4                " An indent is 4 spaces
 set shiftround                  " Round indent to nearest shiftwidth multiple
 
-" Strange swap files cannot be removed...
-set nobackup
-set nowritebackup
-
 " Color 
 set background=dark
 "set cursorline                 " Slow...
@@ -117,15 +115,29 @@ set splitbelow " When splitting horizontally, split below
 " NerdTree setting
 let NERDTreeIgnore=['\.DAT*', '\~$']
 
-" My Build System
-" http://tuxion.com/2011/09/30/vim-makeprg.html
-set makeprg=./build.bat
-set errorformat=\ %#%f(%l)\ :\ %m " From visual_studio.vim - g:visual_studio_quickfix_errorformat_cpp
-
+" Set working directory to the current file
+autocmd BufEnter * silent! lcd %:p:h
 
 " Pandoc and Notes {{{1
 command! -nargs=1 Ngrep vimgrep "<args>" $NOTEDIR/**/*.md 
 nnoremap <leader>[ :Ngrep 
+
+" My Build System
+" http://tuxion.com/2011/09/30/vim-makeprg.html
+if has("win32unix")
+    "
+    " Do something only in Cygwin
+    "
+    set makeprg=./build.bat
+    set errorformat=\ %#%f(%l)\ :\ %m " From visual_studio.vim - g:visual_studio_quickfix_errorformat_cpp
+
+elseif has("unix") && !has("win32unix")
+    "
+    " Do something only in Linux, but not in Cygwin
+    "
+    set errorformat+=%f:%l:\ %m
+endif
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Mapping
@@ -166,7 +178,11 @@ nmap <silent> tk :bd<CR>
 "    set modifiable  /   substitution /   set nomodifiable  /  set nomodified
 "
 " nomodified -> Instead of closing the quickfix buffer by :qa, I can close it only by :q
-nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal ma<CR> :%s/\r//g<CR> :setlocal nomod<CR> :setlocal noma<CR> <c-w>h :cc<CR>
+if has("win32unix")
+    nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal nobuflisted<CR> :setlocal ma<CR> :%s/\r//g<CR> :setlocal nomod<CR> :setlocal noma<CR> <c-w>h :cc<CR>
+elseif has("unix") && !has("win32unix")
+    nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal nobuflisted<CR> <c-w>h :cc<CR>
+endif
 nmap <silent> <Leader>j :cn<CR>
 nmap <silent> <Leader>k :cp<CR>
 nmap <silent> <Leader>l :ccl<CR>
