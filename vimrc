@@ -121,11 +121,13 @@ set splitbelow " When splitting horizontally, split below
 let NERDTreeIgnore=['\.DAT*', '\~$']
 
 " My Build System
+" http://tuxion.com/2011/09/30/vim-makeprg.html
 set makeprg=./build.bat
 set errorformat=\ %#%f(%l)\ :\ %m " From visual_studio.vim - g:visual_studio_quickfix_errorformat_cpp
 
+
 " Pandoc and Notes {{{1
-command! -nargs=1 Ngrep lvimgrep "<args>" $NOTEDIR/**/*.md
+command! -nargs=1 Ngrep vimgrep "<args>" $NOTEDIR/**/*.md 
 nnoremap <leader>[ :Ngrep 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
