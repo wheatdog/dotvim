@@ -104,9 +104,6 @@ set incsearch
 " Show line number
 set nu
 
-" GVim font
-set guifont=Liberation\ Mono:h14
-
 " Airline setting
 set laststatus=2
 let g:airline_theme='badwolf'
