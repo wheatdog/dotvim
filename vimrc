@@ -73,15 +73,15 @@ set softtabstop=4               " Insert 4 spaces when tab is pressed
 set shiftwidth=4                " An indent is 4 spaces
 set shiftround                  " Round indent to nearest shiftwidth multiple
 
-" Color 
-set background=dark
-"set cursorline                 " Slow...
-colorscheme badwolf
-set t_Co=256
-
 " NOTE: Fix stange color in tmux
 " base on: http://reyhan.org/2013/12/colours-on-vim-and-tmux.html
 set term=screen-256color
+
+" Color 
+set background=dark
+set cursorline                 " Slow...
+set t_Co=256
+colorscheme badwolf
 
 " Syntax
 syntax enable
@@ -98,6 +98,7 @@ set listchars+=precedes:←,extends:→
 
 " Improve search
 set incsearch
+set nohlsearch
 
 " Show line number
 set nu
