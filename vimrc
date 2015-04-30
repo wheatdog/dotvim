@@ -89,7 +89,7 @@ syntax enable
 let mapleader = "\<Space>"
 
 " Accessing the system clipboard
-set clipboard=unnamed
+set clipboard^=unnamed
 
 " Long line will not wrap and make scolling horizontally a bit more useful
 set nowrap
