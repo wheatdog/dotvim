@@ -88,8 +88,8 @@ syntax enable
 
 let mapleader = "\<Space>"
 
-" Accessing the system clipboard
-set clipboard^=unnamed
+" Accessing the system clipboard, using vimx and unnamedplus on fedora 21
+set clipboard=unnamedplus
 
 " Long line will not wrap and make scolling horizontally a bit more useful
 set nowrap
