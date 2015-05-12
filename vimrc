@@ -88,7 +88,7 @@ syntax enable
 
 let mapleader = "\<Space>"
 
-" Accessing the system clipboard, using vimx and unnamedplus on fedora 21
+" Accessing the system clipboard, using [gvim -v] and unnamedplus on fedora 21
 set clipboard=unnamedplus
 
 " Long line will not wrap and make scolling horizontally a bit more useful
@@ -151,10 +151,11 @@ nnoremap <Leader>. :source ~/.vim/vimrc<CR>
 
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :qa<CR>
+nnoremap <Leader>d :bp\|bd #<CR>
 
 " Splits related
-nmap <silent> vv :vsp<CR><c-n>
-nmap <silent> ss :sp<CR><c-n>
+nmap <silent> vv :vsp<CR>
+nmap <silent> ss :sp<CR>
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
