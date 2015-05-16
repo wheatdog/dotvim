@@ -7,11 +7,6 @@
 "    http://endot.org/2014/07/05/my-note-taking-workflow/
 " -) :make on Windows and Unix, and handle ErrorFormat.
 " -) Cool stuff: http://bytefluent.com/vivify/
-" -) Try to detect how many spilts in my tab, I would like to fix the number on
-"    2, or maybe I could startup my vim by default 2 vertical spilts.
-" -) Append output of an external command.
-"    http://vim.wikia.com/wiki/Append_output_of_an_external_command
-"    http://vim.wikia.com/wiki/Display_output_of_shell_commands_in_new_window
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Vundle Setting
@@ -129,13 +124,23 @@ if has("win32unix")
     "
     " Do something only in Cygwin
     "
-    set makeprg=./build.bat
-    set errorformat=\ %#%f(%l)\ :\ %m " From visual_studio.vim - g:visual_studio_quickfix_errorformat_cpp
+    
+    if filereadable("./Makefile")
+        " Normal file in Cygwin
+        set errorformat+=%f:%l:\ %m
+    elseif (filereadable("./build.bat"))
+        " Deal with Handmade Hero build system
+        set makeprg=./build.bat
+        set errorformat=\ %#%f(%l)\ :\ %m " From visual_studio.vim - g:visual_studio_quickfix_errorformat_cpp
+    endif
+
 
 elseif has("unix") && !has("win32unix")
     "
     " Do something only in Linux, but not in Cygwin
     "
+    
+    " For Makefile
     set errorformat+=%f:%l:\ %m
 endif
 
