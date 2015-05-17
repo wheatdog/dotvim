@@ -74,7 +74,7 @@ set term=screen-256color
 
 " Color 
 set background=dark
-set cursorline                 " Slow...
+"set cursorline                 " Slow...
 set t_Co=256
 colorscheme badwolf
 
@@ -83,8 +83,12 @@ syntax enable
 
 let mapleader = "\<Space>"
 
-" Accessing the system clipboard, using [gvim -v] and unnamedplus on fedora 21
-set clipboard=unnamedplus
+if has("win32unix")
+    set clipboard=unnamed
+elseif has("unix") && !has("win32unix")
+    " Accessing the system clipboard, using [gvim -v] and unnamedplus on fedora 21
+    set clipboard=unnamedplus
+endif
 
 " Long line will not wrap and make scolling horizontally a bit more useful
 set nowrap
@@ -185,11 +189,14 @@ nmap <silent> tk :bd<CR>
 "    set modifiable  /   substitution /   set nomodifiable  /  set nomodified
 "
 " nomodified -> Instead of closing the quickfix buffer by :qa, I can close it only by :q
-if has("win32unix")
+if has("win32unix") && filereadable("./build.bat")
     nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal nobuflisted<CR> :setlocal ma<CR> :%s/\r//g<CR> :setlocal nomod<CR> :setlocal noma<CR> <c-w>h :cc<CR>
+elseif has("win32unix") && !filereadable("./build.bat")
+    nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal nobuflisted<CR> <c-w>h :cc<CR>
 elseif has("unix") && !has("win32unix")
     nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal nobuflisted<CR> <c-w>h :cc<CR>
 endif
+
 nmap <silent> <Leader>j :cn<CR>
 nmap <silent> <Leader>k :cp<CR>
 nmap <silent> <Leader>l :ccl<CR>
