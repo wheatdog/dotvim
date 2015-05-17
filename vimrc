@@ -200,6 +200,7 @@ nnoremap <silent> <Leader>. :source ~/.vim/vimrc<CR>
 
 nnoremap <silent> <Leader>w :w<CR>
 nnoremap <silent> <Leader>q :qa<CR>
+nnoremap <silent> <Leader>f :q<CR>
 nnoremap <silent> <Leader>d :call DeleteBuffer()<CR>
 
 " Splits related
