@@ -5,8 +5,8 @@
 "    http://www.reddit.com/r/vim/comments/2r24nm/note_taking_using_vim_and_pandocs/
 "    http://www.reddit.com/r/vim/comments/2m2ibe/what_notetaking_plugins_do_you_usesuggest_for_vim/
 "    http://endot.org/2014/07/05/my-note-taking-workflow/
-" -) :make on Windows and Unix, and handle ErrorFormat.
 " -) Cool stuff: http://bytefluent.com/vivify/
+" -) quickfix open in a exist buffer??
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Vundle Setting
@@ -74,7 +74,6 @@ set term=screen-256color
 
 " Color 
 set background=dark
-"set cursorline                 " Slow...
 set t_Co=256
 colorscheme badwolf
 
@@ -88,6 +87,7 @@ if has("win32unix")
 elseif has("unix") && !has("win32unix")
     " Accessing the system clipboard, using [gvim -v] and unnamedplus on fedora 21
     set clipboard=unnamedplus
+    set cursorline                 " Slow in babun
 endif
 
 " Long line will not wrap and make scolling horizontally a bit more useful
@@ -124,30 +124,36 @@ nnoremap <leader>[ :Ngrep
 
 " My Build System
 " http://tuxion.com/2011/09/30/vim-makeprg.html
-if has("win32unix")
-    "
-    " Do something only in Cygwin
-    "
-    
-    if filereadable("./Makefile")
-        " Normal file in Cygwin
+"
+" Easy Compile 
+" map <leader>c to compile
+" NOTE: To fix ^M ending problem on Windows, I combine following command:
+" 
+"   :setlocal ma<CR>    :%s/\r//g<CR>   :setlocal nomod<CR>   :setlocal noma<CR> 
+"    set modifiable  /   substitution /   set nomodifiable  /  set nomodified
+"
+" nomodified -> Instead of closing the quickfix buffer by :qa, I can close it only by :q
+" 
+function! BuildSystemCheck()
+    if has("win32unix")
+        if filereadable("./build.bat")
+            " Deal with Handmade Hero build system
+            set makeprg=./build.bat
+            set errorformat=\ %#%f(%l)\ :\ %m " From visual_studio.vim - g:visual_studio_quickfix_errorformat_cpp
+            nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal nobuflisted<CR> :setlocal ma<CR> :%s/\r//g<CR> :setlocal nomod<CR> :setlocal noma<CR> <c-w>h :cc<CR>
+        else
+            " Normal file in Cygwin
+            set errorformat+=%f:%l[%c]\ %m
+            nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal nobuflisted<CR> <c-w>h :cc<CR>
+        endif
+    elseif has("unix") && !has("win32unix")
         set errorformat+=%f:%l:\ %m
-    elseif (filereadable("./build.bat"))
-        " Deal with Handmade Hero build system
-        set makeprg=./build.bat
-        set errorformat=\ %#%f(%l)\ :\ %m " From visual_studio.vim - g:visual_studio_quickfix_errorformat_cpp
+        nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal nobuflisted<CR> <c-w>h :cc<CR>
     endif
+endfunction
 
-
-elseif has("unix") && !has("win32unix")
-    "
-    " Do something only in Linux, but not in Cygwin
-    "
-    
-    " For Makefile
-    set errorformat+=%f:%l:\ %m
-endif
-
+" Check Build System
+autocmd BufEnter * silent! call BuildSystemCheck()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Mapping
@@ -181,21 +187,6 @@ nmap <silent> tk :bd<CR>
 "nmap <silent> <Leader>l :tabnext<CR>
 "nmap <silent> <Leader>h :tabprevious<CR>
 "nmap <silent> <Leader>n :tabnew<CR>
-
-" Easy Compile 
-" NOTE: To fix ^M ending problem on Windows, I combine following command:
-" 
-"   :setlocal ma<CR>    :%s/\r//g<CR>   :setlocal nomod<CR>   :setlocal noma<CR> 
-"    set modifiable  /   substitution /   set nomodifiable  /  set nomodified
-"
-" nomodified -> Instead of closing the quickfix buffer by :qa, I can close it only by :q
-if has("win32unix") && filereadable("./build.bat")
-    nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal nobuflisted<CR> :setlocal ma<CR> :%s/\r//g<CR> :setlocal nomod<CR> :setlocal noma<CR> <c-w>h :cc<CR>
-elseif has("win32unix") && !filereadable("./build.bat")
-    nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal nobuflisted<CR> <c-w>h :cc<CR>
-elseif has("unix") && !has("win32unix")
-    nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal nobuflisted<CR> <c-w>h :cc<CR>
-endif
 
 nmap <silent> <Leader>j :cn<CR>
 nmap <silent> <Leader>k :cp<CR>
