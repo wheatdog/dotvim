@@ -6,7 +6,7 @@
 "    http://www.reddit.com/r/vim/comments/2m2ibe/what_notetaking_plugins_do_you_usesuggest_for_vim/
 "    http://endot.org/2014/07/05/my-note-taking-workflow/
 " -) Cool stuff: http://bytefluent.com/vivify/
-" -) quickfix open in a exist buffer??
+" -) Highlight some specific word in comment
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Vundle Setting
@@ -122,38 +122,72 @@ autocmd BufEnter * silent! lcd %:p:h
 command! -nargs=1 Ngrep vimgrep "<args>" $NOTEDIR/**/*.md 
 nnoremap <leader>[ :Ngrep 
 
-" My Build System
-" http://tuxion.com/2011/09/30/vim-makeprg.html
-"
-" Easy Compile 
-" map <leader>c to compile
+" Check whether QuickFix Window was open or not
+function! QuickFixWindowExist()
+    let currentID = winnr()
+    let found = 0
+    for i in range(1,  winnr("$"))
+        if (&filetype == "qf")
+            let found = 1
+            break
+        endif
+        wincmd w
+    endfor
+    exe currentID  . "wincmd w"
+    return found
+endfunction
+
+" Don't open too much window when QuickFix Window isn't open
+function! OpenQuickFixList()
+    if ((winnr("$") != 1) && !QuickFixWindowExist())
+       wincmd o 
+    endif
+    call GenerateCustomQuickFixList()
+endfunction
+
+" Custom QuickFix Window
+function! GenerateCustomQuickFixList()
+     silent make | redraw! | vertical copen 60 | setlocal wrap linebreak | wincmd = | setlocal nonu | setlocal nobuflisted 
+endfunction
+
 " NOTE: To fix ^M ending problem on Windows, I combine following command:
 " 
 "   :setlocal ma<CR>    :%s/\r//g<CR>   :setlocal nomod<CR>   :setlocal noma<CR> 
 "    set modifiable  /   substitution /   set nomodifiable  /  set nomodified
 "
 " nomodified -> Instead of closing the quickfix buffer by :qa, I can close it only by :q
-" 
+function! WinFixNewLine()
+    setlocal modifiable | %s/\r//g | setlocal nomodified | setlocal nomodifiable 
+endfunction
+
+" My Build System and Easy Compile
+" http://tuxion.com/2011/09/30/vim-makeprg.html
 function! BuildSystemCheck()
-    if has("win32unix")
-        if filereadable("./build.bat")
-            " Deal with Handmade Hero build system
-            set makeprg=./build.bat
-            set errorformat=\ %#%f(%l)\ :\ %m " From visual_studio.vim - g:visual_studio_quickfix_errorformat_cpp
-            nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal nobuflisted<CR> :setlocal ma<CR> :%s/\r//g<CR> :setlocal nomod<CR> :setlocal noma<CR> <c-w>h :cc<CR>
-        else
-            " Normal file in Cygwin
-            set errorformat+=%f:%l[%c]\ %m
-            nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal nobuflisted<CR> <c-w>h :cc<CR>
-        endif
-    elseif has("unix") && !has("win32unix")
-        set errorformat+=%f:%l:\ %m
-        nnoremap <silent> <leader>c :silent make\|redraw!\|vertical copen 60\|setlocal wrap linebreak\|<CR> <c-w>= :setlocal nonu<CR> :setlocal nobuflisted<CR> <c-w>h :cc<CR>
+    if has("win32unix") && filereadable("./build.bat")
+        " Deal with Handmade Hero build system
+        set makeprg=./build.bat
+        set errorformat=\ %#%f(%l)\ :\ %m " From visual_studio.vim - g:visual_studio_quickfix_errorformat_cpp
+        nnoremap <silent> <leader>c :call OpenQuickFixList()\| :call WinFixNewLine()<CR> <c-w>p :cc<CR>
+    elseif (has("unix") && !has("win32unix")) || (has("win32unix") && !filereadable("./build.bat"))
+        " (has("unix") && !has("win32unix")) -> Linux
+        " (has("win32unix"))                 -> Cygwin
+        set makeprg=make
+        set errorformat=%f:%l:%c:\ %m
+        nnoremap <silent> <leader>c :call OpenQuickFixList()<CR> <c-w>p :cc<CR>
     endif
 endfunction
 
-" Check Build System
+" Check Build System for every buffer
 autocmd BufEnter * silent! call BuildSystemCheck()
+
+" Deal with buffer Delete issue
+function! DeleteBuffer()
+    if ((len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1) || &filetype == "qf")
+        quit
+    else
+        bp|bd #
+    endif
+endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Mapping
@@ -161,12 +195,12 @@ autocmd BufEnter * silent! call BuildSystemCheck()
 
 map <C-n> :NERDTreeToggle<CR>
 
-nnoremap <Leader>/ :e ~/.vim/vimrc<CR>
-nnoremap <Leader>. :source ~/.vim/vimrc<CR>  
+nnoremap <silent> <Leader>/ :e ~/.vim/vimrc<CR>
+nnoremap <silent> <Leader>. :source ~/.vim/vimrc<CR>  
 
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>q :qa<CR>
-nnoremap <Leader>d :bp\|bd #<CR>
+nnoremap <silent> <Leader>w :w<CR>
+nnoremap <silent> <Leader>q :qa<CR>
+nnoremap <silent> <Leader>d :call DeleteBuffer()<CR>
 
 " Splits related
 nmap <silent> vv :vsp<CR>
@@ -175,6 +209,7 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+nnoremap <Leader>r <c-w>R
 
 " Buffer navigation
 nmap <silent> tt :enew!<CR>
@@ -183,11 +218,7 @@ nmap <silent> tl :bnext!<CR>
 nmap <silent> tj :ls<CR> 
 nmap <silent> tk :bd<CR>
 
-" Tab navigation
-"nmap <silent> <Leader>l :tabnext<CR>
-"nmap <silent> <Leader>h :tabprevious<CR>
-"nmap <silent> <Leader>n :tabnew<CR>
-
+" Error navigation
 nmap <silent> <Leader>j :cn<CR>
 nmap <silent> <Leader>k :cp<CR>
 nmap <silent> <Leader>l :ccl<CR>
