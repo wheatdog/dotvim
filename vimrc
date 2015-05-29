@@ -75,7 +75,7 @@ set term=screen-256color
 " Color 
 set background=dark
 set t_Co=256
-colorscheme badwolf
+silent! colorscheme badwolf
 
 " Syntax
 syntax enable
