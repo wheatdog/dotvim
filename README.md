@@ -1,6 +1,6 @@
 #Install
 
-``git clone https://github.com/wheatdog/dotvim.git ~/.vim; ~/.vim/install-vim.sh``
+``git clone https://github.com/wheatdog/dotvim.git ~/.vim; cd ~/.vim; ./install-vim.sh``
 
 #Reference
 
