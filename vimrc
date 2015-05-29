@@ -80,6 +80,14 @@ colorscheme badwolf
 " Syntax
 syntax enable
 
+" Undo Setting
+if v:version >= 703
+    "undo settings
+    set undodir=~/.undofiles
+    set undofile
+endif
+
+" Leader Key
 let mapleader = "\<Space>"
 
 if has("win32unix")
@@ -100,7 +108,15 @@ set incsearch
 set nohlsearch
 
 " Show line number
-set nu
+set number
+
+" Cmdmode auto-completion zsh-like
+set wildmenu
+set wildmode=longest,list,full
+
+" Omni completion 
+" http://vim.wikia.com/wiki/Omni_completion
+set omnifunc=syntaxcomplete#Complete
 
 " Airline setting
 set laststatus=2
@@ -156,8 +172,8 @@ endfunction
 "    set modifiable  /   substitution /   set nomodifiable  /  set nomodified
 "
 " nomodified -> Instead of closing the quickfix buffer by :qa, I can close it only by :q
-function! WinFixNewLine()
-    setlocal modifiable | %s/\r//g | setlocal nomodified | setlocal nomodifiable 
+function! CleanNewLinePattern()
+    setlocal modifiable | %s/\r//ge | setlocal nomodified | setlocal nomodifiable 
 endfunction
 
 " My Build System and Easy Compile
@@ -167,13 +183,13 @@ function! BuildSystemCheck()
         " Deal with Handmade Hero build system
         set makeprg=./build.bat
         set errorformat=\ %#%f(%l)\ :\ %m " From visual_studio.vim - g:visual_studio_quickfix_errorformat_cpp
-        nnoremap <silent> <leader>c :call OpenQuickFixList()\| :call WinFixNewLine()<CR> <c-w>p :cc<CR>
+        nnoremap <silent> <leader>c :call OpenQuickFixList()\| :call CleanNewLinePattern()<CR> <c-w>p :cc<CR>
     elseif (has("unix") && !has("win32unix")) || (has("win32unix") && !filereadable("./build.bat"))
         " (has("unix") && !has("win32unix")) -> Linux
         " (has("win32unix"))                 -> Cygwin
-        set makeprg=make
-        set errorformat=%f:%l:%c:\ %m
-        nnoremap <silent> <leader>c :call OpenQuickFixList()<CR> <c-w>p :cc<CR>
+        set makeprg
+        set errorformat
+        nnoremap <silent> <leader>c :call OpenQuickFixList()\| :call CleanNewLinePattern()<CR> <c-w>p :cc<CR>
     endif
 endfunction
 
