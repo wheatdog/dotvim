@@ -6,7 +6,6 @@
 "    http://www.reddit.com/r/vim/comments/2m2ibe/what_notetaking_plugins_do_you_usesuggest_for_vim/
 "    http://endot.org/2014/07/05/my-note-taking-workflow/
 " -) Cool stuff: http://bytefluent.com/vivify/
-" -) Highlight some specific word in comment
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Vundle Setting
@@ -211,13 +210,12 @@ endfunction
 
 map <C-n> :NERDTreeToggle<CR>
 
-nnoremap <silent> <Leader>/ :e ~/.vim/vimrc<CR>
+nnoremap <silent> <Leader>/ :w \| :e ~/.vim/vimrc<CR>
 nnoremap <silent> <Leader>. :source ~/.vim/vimrc<CR>  
 
 nnoremap <silent> <Leader>w :w<CR>
 nnoremap <silent> <Leader>q :qa<CR>
-nnoremap <silent> <Leader>f :q<CR>
-nnoremap <silent> <Leader>d :call DeleteBuffer()<CR>
+nnoremap <silent> <Leader>d :q<CR>
 
 " Splits related
 nmap <silent> vv :vsp<CR>
@@ -233,7 +231,7 @@ nmap <silent> tt :enew!<CR>
 nmap <silent> th :bprevious!<CR>
 nmap <silent> tl :bnext!<CR>
 nmap <silent> tj :ls<CR> 
-nmap <silent> tk :bd<CR>
+nmap <silent> tk :call DeleteBuffer()<CR>
 
 " Error navigation
 nmap <silent> <Leader>j :cn<CR>
