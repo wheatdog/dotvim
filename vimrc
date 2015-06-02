@@ -267,6 +267,6 @@ nmap <silent> <Leader>l :ccl<CR>
 nmap <CR> o<Esc>
 
 " Git related
-nnoremap <silent> <Leader>fg :Gstatus<CR>
+nnoremap <silent> <Leader>ff :Gstatus<CR>
 nnoremap <silent> <Leader>fk :Gpush<CR>
 nnoremap <silent> <Leader>fj :Gpull<CR>
