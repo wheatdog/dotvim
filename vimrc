@@ -35,6 +35,11 @@ Plugin 'bling/vim-airline'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 
+" Git
+Plugin 'tpope/vim-fugitive'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'airblade/vim-gitgutter'
+
 " Note taking System
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
@@ -129,9 +134,14 @@ set splitbelow " When splitting horizontally, split below
 
 " NerdTree setting
 let NERDTreeIgnore=['\.DAT*', '\~$']
+let NERDTreeChDirMode=2
+let NERDTreeQuitOnOpen=1
+" Close vim if the only window left open is a NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Set working directory to the current file
-autocmd BufEnter * silent! lcd %:p:h
+"autocmd BufEnter * silent! lcd %:p:h
+set autochdir
 
 " Pandoc and Notes {{{1
 command! -nargs=1 Ngrep vimgrep "<args>" $NOTEDIR/**/*.md 
@@ -204,11 +214,22 @@ function! DeleteBuffer()
     endif
 endfunction
 
+" Sync NERDTree with current buffer
+" NOTE: Sad that :NERDTreeToggle . do not work...
+function! CustomNERDTreeToggle()
+    if (exists("b:NERDTreeType"))
+        silent NERDTreeClose
+    else
+        silent NERDTree .
+    endif
+endfunction
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Mapping
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-map <C-n> :NERDTreeToggle<CR>
+map <silent> <C-n> :call CustomNERDTreeToggle()<CR>
 
 nnoremap <silent> <Leader>/ :w \| :e ~/.vim/vimrc<CR>
 nnoremap <silent> <Leader>. :source ~/.vim/vimrc<CR>  
@@ -225,6 +246,10 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 nnoremap <Leader>r <c-w>R
+
+" Cursor moving in current line that is visible in screen
+nmap <silent> gl g$
+nmap <silent> gh ^
 
 " Buffer navigation
 nmap <silent> tt :enew!<CR>
