@@ -265,3 +265,6 @@ nmap <silent> <Leader>l :ccl<CR>
 
 " Insert newline without entering insert mode: by press Enter
 nmap <CR> o<Esc>
+
+" Git related
+nnoremap <silent> <Leader>gg :Gstatus<CR>
