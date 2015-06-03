@@ -38,12 +38,12 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 
 " Git
-Plugin 'tpope/vim-fugitive'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'airblade/vim-gitgutter'
+"Plugin 'tpope/vim-fugitive'
+"Plugin 'Xuyuanp/nerdtree-git-plugin'
+"Plugin 'airblade/vim-gitgutter'
 
 " Compile-related
-Plugin 'tpope/vim-dispatch'
+"Plugin 'tpope/vim-dispatch'
 
 " Note taking System
 Plugin 'vim-pandoc/vim-pandoc'
@@ -280,6 +280,6 @@ nmap <silent> <Leader>l :ccl<CR>
 nmap <CR> o<Esc>
 
 " Git related
-nnoremap <silent> <Leader>ff :Gstatus<CR>
+nnoremap <silent> <Leader>g :Gstatus<CR>
 nnoremap <silent> <Leader>fk :Gpush<CR>
 nnoremap <silent> <Leader>fj :Gpull<CR>
