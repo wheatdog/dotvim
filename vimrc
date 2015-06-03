@@ -6,6 +6,8 @@
 "    http://www.reddit.com/r/vim/comments/2m2ibe/what_notetaking_plugins_do_you_usesuggest_for_vim/
 "    http://endot.org/2014/07/05/my-note-taking-workflow/
 " -) Cool stuff: http://bytefluent.com/vivify/
+" -) Compile relate: https://github.com/tpope/vim-dispatch
+"    http://tilvim.com/2014/03/13/dispatch.html
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Vundle Setting
@@ -39,6 +41,9 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-fugitive'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'airblade/vim-gitgutter'
+
+" Compile-related
+Plugin 'tpope/vim-dispatch'
 
 " Note taking System
 Plugin 'vim-pandoc/vim-pandoc'
@@ -175,6 +180,7 @@ function! GenerateCustomQuickFixList()
      silent make | redraw! | vertical copen 60 | setlocal wrap linebreak | wincmd = | setlocal nonu | setlocal nobuflisted 
 endfunction
 
+
 " NOTE: To fix ^M ending problem on Windows, I combine following command:
 " 
 "   :setlocal ma<CR>    :%s/\r//g<CR>   :setlocal nomod<CR>   :setlocal noma<CR> 
@@ -185,6 +191,11 @@ function! CleanNewLinePattern()
     setlocal modifiable | %s/\r//ge | setlocal nomodified | setlocal nomodifiable 
 endfunction
 
+au FileType qf call AdjustWindowHeight(3, 10)
+function! AdjustWindowHeight(minheight, maxheight)
+  exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+endfunction
+
 " My Build System and Easy Compile
 " http://tuxion.com/2011/09/30/vim-makeprg.html
 function! BuildSystemCheck()
@@ -192,13 +203,15 @@ function! BuildSystemCheck()
         " Deal with Handmade Hero build system
         set makeprg=./build.bat
         set errorformat=\ %#%f(%l)\ :\ %m " From visual_studio.vim - g:visual_studio_quickfix_errorformat_cpp
-        nnoremap <silent> <leader>c :call OpenQuickFixList()\| :call CleanNewLinePattern()<CR> <c-w>p :cc<CR>
+        "nnoremap <silent> <leader>c :call OpenQuickFixList()\| :call CleanNewLinePattern()<CR> <c-w>p :cc<CR>
+        nnoremap <leader>c :Make<CR>
     elseif (has("unix") && !has("win32unix")) || (has("win32unix") && !filereadable("./build.bat"))
         " (has("unix") && !has("win32unix")) -> Linux
         " (has("win32unix"))                 -> Cygwin
         set makeprg
         set errorformat
-        nnoremap <silent> <leader>c :call OpenQuickFixList()\| :call CleanNewLinePattern()<CR> <c-w>p :cc<CR>
+        "nnoremap <silent> <leader>c :call OpenQuickFixList()\| :call CleanNewLinePattern()<CR> <c-w>p :cc<CR>
+        nnoremap <leader>c :Make<CR>
     endif
 endfunction
 
