@@ -281,5 +281,5 @@ nmap <CR> o<Esc>
 
 " Git related
 nnoremap <silent> <Leader>g :Gstatus<CR>
-nnoremap <silent> <Leader>fk :Gpush<CR>
-nnoremap <silent> <Leader>fj :Gpull<CR>
+nnoremap <silent> <Leader>u :Gpush<CR>
+nnoremap <silent> <Leader>i :Gpull<CR>
