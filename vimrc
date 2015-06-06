@@ -244,7 +244,7 @@ endfunction
 
 map <silent> <C-n> :call CustomNERDTreeToggle()<CR>
 
-nnoremap <silent> <Leader>/ :w \| :e ~/.vim/vimrc<CR>
+nnoremap <silent> <Leader>/ :e ~/.vim/vimrc<CR>
 nnoremap <silent> <Leader>. :source ~/.vim/vimrc<CR>  
 
 nnoremap <silent> <Leader>w :w<CR>
