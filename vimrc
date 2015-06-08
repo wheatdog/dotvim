@@ -77,10 +77,6 @@ set softtabstop=4               " Insert 4 spaces when tab is pressed
 set shiftwidth=4                " An indent is 4 spaces
 set shiftround                  " Round indent to nearest shiftwidth multiple
 
-" NOTE: Fix stange color in tmux
-" base on: http://reyhan.org/2013/12/colours-on-vim-and-tmux.html
-set term=screen-256color
-
 " Color 
 set background=dark
 set t_Co=256
@@ -228,7 +224,7 @@ function! DeleteBuffer()
 endfunction
 
 " Sync NERDTree with current buffer
-" NOTE: Sad that :NERDTreeToggle . do not work...
+" NOTE: It is sad that ":NERDTreeToggle ." do not work...
 function! CustomNERDTreeToggle()
     if (exists("b:NERDTreeType"))
         silent NERDTreeClose
@@ -242,7 +238,8 @@ endfunction
 "" Mapping
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-map <silent> <C-n> :call CustomNERDTreeToggle()<CR>
+map <silent> <Leader>n :call CustomNERDTreeToggle()<CR>
+map <Leader>p <c-p>
 
 nnoremap <silent> <Leader>/ :e ~/.vim/vimrc<CR>
 nnoremap <silent> <Leader>. :source ~/.vim/vimrc<CR>  
