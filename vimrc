@@ -52,17 +52,6 @@ Plugin 'vim-pandoc/vim-pandoc-syntax'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" General Setting
@@ -86,18 +75,15 @@ silent! colorscheme badwolf
 syntax enable
 
 " Undo Setting
-if v:version >= 703
-    "undo settings
-    set undodir=~/.undofiles
-    set undofile
-endif
+set undofile
+set undodir=$HOME/.vimundo
 
 " Leader Key
 let mapleader = "\<Space>"
 
 if has("win32unix")
     set clipboard=unnamed
-elseif has("unix") && !has("win32unix")
+elseif has("unix") && !has("win32unix") && has('unnamedplus')
     " Accessing the system clipboard, using [gvim -v] and unnamedplus on fedora 21
     set clipboard=unnamedplus
     set cursorline                 " Slow in babun
@@ -238,15 +224,10 @@ endfunction
 "" Mapping
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-map <silent> <Leader>n :call CustomNERDTreeToggle()<CR>
-map <Leader>p <c-p>
+map <silent> <c-n> :call CustomNERDTreeToggle()<CR>
 
 nnoremap <silent> <Leader>/ :e ~/.vim/vimrc<CR>
 nnoremap <silent> <Leader>. :source ~/.vim/vimrc<CR>  
-
-nnoremap <silent> <Leader>w :w<CR>
-nnoremap <silent> <Leader>q :qa<CR>
-nnoremap <silent> <Leader>d :q<CR>
 
 " Splits related
 nmap <silent> vv :vsp<CR>
@@ -280,3 +261,15 @@ nmap <CR> o<Esc>
 nnoremap <silent> <Leader>g :Gstatus<CR>
 nnoremap <silent> <Leader>u :Gpush<CR>
 nnoremap <silent> <Leader>i :Gpull<CR>
+
+" Esc alternative (from Spacemacs)
+map <silent> fd <esc>
+inoremap <silent> fd <esc>
+
+" Inspired by Spacemacs
+nnoremap <silent> <Leader>fs :w<CR>
+nnoremap <silent> <Leader>fS :wa<CR>
+nnoremap <silent> <Leader>qq :qa<CR>
+nnoremap <silent> <Leader>qQ :qa!<CR>
+nnoremap <silent> <Leader>qs :wqa!<CR>
+nnoremap <silent> <Leader>qz :q<CR>
