@@ -13,10 +13,11 @@ if [ ! -L ".$TARGET" ]; then
     echo "Create a symbolic link \"$HOME/.vim/$TARGET\" to \"$HOME/.$TARGET\""
 fi
 
+# TODO: Change vundle to neobundle
 VUNDLEDIR=~/.vim/bundle/Vundle.vim
 if [ ! "$(ls -A $VUNDLEDIR)" ]; then
     git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 fi
-vim +PluginInstall +qall
+vim +NeoBundleInstall +qall
 
 ln -fs ~/.vim/vimrc ~/.vimrc
