@@ -10,48 +10,62 @@
 "    http://tilvim.com/2014/03/13/dispatch.html
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" Vundle Setting
+"" NeoBundle Setting
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('vim_starting')
+    if &compatible
+        set nocompatible               " Be iMproved
+    endif
 
-set nocompatible              " be iMproved, required
-filetype off                  " required
+    " Required:
+    set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" Required:
+call neobundle#begin(expand('~/.vim/bundle/'))
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" My Bundles here:
+" Refer to |:NeoBundle-examples|.
+" Note: You don't set neobundle setting in .gvimrc!
 
 " Gvim colorscheme
-Plugin 'sickill/vim-monokai'
-Plugin 'Solarized'
-Plugin 'sjl/badwolf'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'Zenburn'
+NeoBundle 'sickill/vim-monokai'
+NeoBundle 'Solarized'
+NeoBundle 'sjl/badwolf'
+NeoBundle 'nanotech/jellybeans.vim'
+NeoBundle 'Zenburn'
 
 " Fancy Airline
-Plugin 'bling/vim-airline'
+NeoBundle 'bling/vim-airline'
 
 " Browse file easily
-Plugin 'kien/ctrlp.vim'
-Plugin 'scrooloose/nerdtree'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'scrooloose/nerdtree'
 
 " Git
-Plugin 'tpope/vim-fugitive'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'airblade/vim-gitgutter'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'Xuyuanp/nerdtree-git-plugin'
+NeoBundle 'airblade/vim-gitgutter'
 
 " Compile-related
-Plugin 'tpope/vim-dispatch'
+NeoBundle 'tpope/vim-dispatch'
 
 " Note taking System
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
+NeoBundle 'vim-pandoc/vim-pandoc'
+NeoBundle 'vim-pandoc/vim-pandoc-syntax'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call neobundle#end()
+
+" Required:
+filetype plugin indent on
+
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+NeoBundleCheck
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" General Setting
