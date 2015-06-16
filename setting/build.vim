@@ -1,4 +1,4 @@
-" My Build System
+"====== [My Build System]
 " http://tuxion.com/2011/09/30/vim-makeprg.html
 function! BuildSystemCheck()
     if has("win32unix") && filereadable("./build.bat")

@@ -47,6 +47,12 @@ NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'vim-pandoc/vim-pandoc'
 NeoBundle 'vim-pandoc/vim-pandoc-syntax'
 
+" Surroundings
+NeoBundle 'tpope/vim-surround'
+
+" Quick navigation
+NeoBundle 'tpope/vim-unimpaired'
+
 call neobundle#end()
 
 " Required:
