@@ -13,3 +13,5 @@ vim-gitgutter
 vim-monokai
 vim-pandoc
 vim-pandoc-syntax
+vim-surround
+vim-unimpaired
