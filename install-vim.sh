@@ -14,8 +14,8 @@ if [ ! -L ".$TARGET" ]; then
 fi
 
 # Install neobundle
-curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh
-sh ./install.sh
+mkdir -p ~/.vim/bundle
+git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 
 vim +NeoBundleInstall +qall
 
