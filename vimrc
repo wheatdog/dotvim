@@ -1,4 +1,5 @@
-" TODO: Make vim rock
+" TODO:
+" sjl's vimrc: https://bitbucket.org/sjl/dotfiles/src/e3f758e825299d9f92d4c13946002a38379579ab/vim/vimrc?at=default
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Setting
@@ -84,7 +85,7 @@ endif
 
 " Deal with buffer Delete issue
 function! DeleteBuffer()
-    if ((len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1) || &filetype == "qf")
+    if ((len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1))
         quit
     else
         bp|bd #
@@ -96,7 +97,7 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " vim edit shortcut
-nnoremap <silent> <leader>/ :vset<cr>
+nnoremap <silent> <leader>/ :Vset<cr>
 nnoremap <silent> <leader>. :source ~/.vim/vimrc<cr>  
 
 " cursor moving in current line that is visible in screen
@@ -137,7 +138,7 @@ nnoremap <silent> tt :enew!<cr>
 nnoremap <silent> th :bprevious!<cr>
 nnoremap <silent> tl :bnext!<cr>
 nnoremap <silent> tj :ls<cr> 
-nnoremap <silent> tk :call Deletebuffer()<cr>
+nnoremap <silent> tk :call DeleteBuffer()<cr>
 
 " error navigation
 nnoremap <silent> <leader>j :cn<cr>
