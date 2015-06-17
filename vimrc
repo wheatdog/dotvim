@@ -92,70 +92,65 @@ function! DeleteBuffer()
 endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" Mapping
+"" mapping
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Vim edit shortcut
-nnoremap <silent> <Leader>/ :Vset<CR>
-nnoremap <silent> <Leader>. :source ~/.vim/vimrc<CR>  
+" vim edit shortcut
+nnoremap <silent> <leader>/ :vset<cr>
+nnoremap <silent> <leader>. :source ~/.vim/vimrc<cr>  
 
-" Cursor moving in current line that is visible in screen
+" cursor moving in current line that is visible in screen
 nnoremap <silent> gl g$
 nnoremap <silent> gh ^
 
-" Block navigation
-nnoremap <silent> <C-j> }
-nnoremap <silent> <C-k> {
-
-" Esc alternative (inspired by Spacemacs)
+" esc alternative (inspired by spacemacs)
 vnoremap <silent> fd <esc>
 inoremap <silent> fd <esc>
-cnoremap <silent> fd <esc>
+cnoremap <silent> fd <c-c>
 
-" Splits navigation
-nnoremap <silent> vv :vsp<CR>
-nnoremap <silent> ss :sp<CR>
+" splits navigation
+nnoremap <silent> vv :vsp<cr>
+nnoremap <silent> ss :sp<cr>
 if has('nvim')
-    nnoremap <A-j> <C-w>j
-    nnoremap <A-k> <C-w>k
-    nnoremap <A-h> <C-w>h
-    nnoremap <A-l> <C-w>l
+    nnoremap <a-j> <c-w>j
+    nnoremap <a-k> <c-w>k
+    nnoremap <a-h> <c-w>h
+    nnoremap <a-l> <c-w>l
 else " terminal vim, alt not work
-    nnoremap <C-j> <C-w>j
-    nnoremap <C-k> <C-w>k
-    nnoremap <C-h> <C-w>h
-    nnoremap <C-l> <C-w>l
+    nnoremap <c-j> <c-w>j
+    nnoremap <c-k> <c-w>k
+    nnoremap <c-h> <c-w>h
+    nnoremap <c-l> <c-w>l
 endif
-nnoremap <Leader>r <c-w>R
+nnoremap <leader>r <c-w>r
 
-" File navigation (inspired by Spacemacs)
-nnoremap <silent> <Leader>fs :w<CR>
-nnoremap <silent> <Leader>fS :wa<CR>
-nnoremap <silent> <Leader>qq :qa<CR>
-nnoremap <silent> <Leader>qQ :qa!<CR>
-nnoremap <silent> <Leader>qs :wqa!<CR>
-nnoremap <silent> <Leader>qz :q<CR>
-nnoremap <silent> <Leader>qd :call DeleteBuffer()<CR>
+" file navigation (inspired by spacemacs)
+nnoremap <silent> <leader>fs :w<cr>
+nnoremap <silent> <leader>fS :wa<cr>
+nnoremap <silent> <leader>qq :qa<cr>
+nnoremap <silent> <leader>qQ :qa!<cr>
+nnoremap <silent> <leader>qs :wqa!<cr>
+nnoremap <silent> <leader>qd :q<cr>
 
-" Buffer navigation
-nnoremap <silent> tt :enew!<CR>
-nnoremap <silent> th :bprevious!<CR>
-nnoremap <silent> tl :bnext!<CR>
-nnoremap <silent> tj :ls<CR> 
-nnoremap <silent> tk :call DeleteBuffer()<CR>
+" buffer navigation
+nnoremap <silent> tt :enew!<cr>
+nnoremap <silent> th :bprevious!<cr>
+nnoremap <silent> tl :bnext!<cr>
+nnoremap <silent> tj :ls<cr> 
+nnoremap <silent> tk :call Deletebuffer()<cr>
 
-" Error navigation
-nnoremap <silent> <Leader>j :cn<CR>
-nnoremap <silent> <Leader>k :cp<CR>
-nnoremap <silent> <Leader>l :ccl<CR>
+" error navigation
+nnoremap <silent> <leader>j :cn<cr>
+nnoremap <silent> <leader>k :cp<cr>
+nnoremap <silent> <leader>l :ccl<cr>
 
-" NerdTree
-map <silent> <c-n> :call CustomNERDTreeToggle()<CR>
+" nerdtree
+map <silent> <c-n> :call Customnerdtreetoggle()<cr>
 
-" Easy make
-nnoremap <Leader>c :Make<CR>
+" easy make
+nnoremap <leader>c :Make<cr>
 
-" Git related
-nnoremap <silent> <Leader>g :Gstatus<CR>
-nnoremap <silent> <Leader>u :Gpush<CR>
-nnoremap <silent> <Leader>i :Gpull<CR>
+" git related
+nnoremap <silent> <leader>gs :Gstatus<cr>
+nnoremap <silent> <leader>gk :Gpush<cr>
+nnoremap <silent> <leader>gj :Gpull<cr>

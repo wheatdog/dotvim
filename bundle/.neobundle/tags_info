@@ -1,7 +1,9 @@
 Solarized
 Zenburn
 badwolf
+base16-vim
 ctrlp.vim
+gruvbox
 jellybeans.vim
 neobundle.vim
 nerdtree
@@ -10,6 +12,7 @@ vim-airline
 vim-dispatch
 vim-fugitive
 vim-gitgutter
+vim-hybrid
 vim-monokai
 vim-pandoc
 vim-pandoc-syntax

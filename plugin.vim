@@ -27,6 +27,9 @@ NeoBundle 'Solarized'
 NeoBundle 'sjl/badwolf'
 NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'Zenburn'
+NeoBundle 'morhetz/gruvbox'
+NeoBundle 'chriskempson/base16-vim'
+NeoBundle 'w0ng/vim-hybrid'
 
 " Fancy Airline
 NeoBundle 'bling/vim-airline'
